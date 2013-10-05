@@ -96,15 +96,29 @@ public class RushHourNode implements Node{
 	}
 
 	@Override
-	public void createChildren() {
+	public ArrayList<Node> createChildren() {
 		ArrayList<Board> childrenBoards = new ArrayList<Board>(board.generateAllBoards());
+		for (Board board : childrenBoards){
+			System.out.println(board);
+		}
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for (Board childrenBoard : childrenBoards){
 			children.add(new RushHourNode(this.costToNode+1, this, childrenBoard));
 		}
+		return children;
 	}
 
 	@Override
 	public int compareTo(Node other) {
 		return this.getTotalCost()-other.getTotalCost();
+	}
+	
+	public String toString(){
+		return (""+totalCost);
 	}
 }

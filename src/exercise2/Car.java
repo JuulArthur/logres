@@ -48,25 +48,29 @@ public class Car {
 	}
 
 	public Board moveUp(Board board, Point position){
-		Car car = board.board.get(position.y+size).set(position.x,null);
+		Car car = board.board.get(position.y+size-1).get(position.x);
+		board.board.get(position.y+size-1).set(position.x,null);
 		board.board.get(position.y-1).set(position.x,car);
 		return board;
 	}
 	
 	public Board moveDown(Board board, Point position){
+		board.board.get(position.y).get(position.x);
 		Car car = board.board.get(position.y).set(position.x,null);
-		board.board.get(position.y+size+1).set(position.x,car);
+		board.board.get(position.y+size-1).set(position.x,car);
 		return board;
 	}
 	
 	public Board moveRight(Board board, Point position){
-		Car car = board.board.get(position.y).set(position.x+size,null);
-		board.board.get(position.y-1).set(position.x+size+1,car);
+		Car car = board.board.get(position.y).get(position.x-1);
+		board.board.get(position.y).set(position.x-1,null);
+		board.board.get(position.y).set(position.x+size,car);
 		return board;
 	}
 	
 	public Board moveLeft(Board board, Point position){
-		Car car = board.board.get(position.y).set(position.x+size,null);
+		Car car = board.board.get(position.y).get(position.x+size-1);
+		board.board.get(position.y).set(position.x+size-1,null);
 		board.board.get(position.y).set(position.x-1,car);
 		return board;
 	}

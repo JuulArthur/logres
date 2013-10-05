@@ -8,7 +8,7 @@ public interface Node extends Comparable<Node>{
 	
 	public int getTotalCost();
 	
-	public void createChildren();
+	public ArrayList<Node> createChildren();
 	
 	public Boolean getIsGoal();
 
@@ -25,4 +25,6 @@ public interface Node extends Comparable<Node>{
 	public void setChildren(ArrayList<Node> children);
 
 	public int compareTo(Node other);
+	
+	public String toString();
 }

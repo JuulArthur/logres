@@ -5,12 +5,13 @@ import java.util.Collections;
 
 public class Astar{
 	
-	public ArrayList<Node> solve(Node node){
+	public static ArrayList<Node> solve(Node node){
 		ArrayList<Node> open = new ArrayList<Node>();
 		ArrayList<Node> closed = new ArrayList<Node>();
 		open.add(node);
 		Node current;
 		while (!open.isEmpty()){
+			System.out.println("skjer");
 			current = open.remove(0);
 			if(current.getIsGoal()){
 				ArrayList<Node> path = new ArrayList<Node>();
@@ -21,7 +22,8 @@ public class Astar{
 				}
 				
 			}
-			open.addAll(current.getChildren());
+			open.addAll(current.createChildren());
+			System.out.println("children: "+open);
 			Collections.sort(open);
 			closed.add(current);
 		}
