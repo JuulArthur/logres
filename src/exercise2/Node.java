@@ -2,21 +2,27 @@ package exercise2;
 
 import java.util.ArrayList;
 
-public class Node {
-	private int g;
-	private int h;
-	private int f;
-	private State state;
-	private Boolean open;
-	private Node parent;
-	private ArrayList<Node> children;
+public interface Node extends Comparable<Node>{
 	
-	public Node(int g, int h, int f, Boolean open, Node parent, State state){
-		this.g = g;
-		this.h = h;
-		this.f = f;
-		this.open = open;
-		this.parent = parent;
-		this.state = state;
-	}
+	public ArrayList<Node> getChildren();
+	
+	public int getTotalCost();
+	
+	public void createChildren();
+	
+	public Boolean getIsGoal();
+
+	public Boolean getOpen();
+
+	public void setOpen(Boolean open);
+	
+	public Node getParent();
+
+	public void setParent(Node parent);
+	
+	public void setIsGoal(Boolean isGoal);
+
+	public void setChildren(ArrayList<Node> children);
+
+	public int compareTo(Node other);
 }
