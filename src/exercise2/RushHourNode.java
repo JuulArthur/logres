@@ -1,5 +1,6 @@
 package exercise2;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 public class RushHourNode implements Node{
@@ -23,9 +24,17 @@ public class RushHourNode implements Node{
 		children = new ArrayList<Node>();
 		state = board.board.hashCode();
 	}
+	
+	public int getState(){
+		return this.state;
+	}
 
 	public int getCostToNode() {
 		return costToNode;
+	}
+	
+	public Board getBoard(){
+		return this.board;
 	}
 
 	public void setCostToNode(int costToNode) {
@@ -98,15 +107,6 @@ public class RushHourNode implements Node{
 	@Override
 	public ArrayList<Node> createChildren() {
 		ArrayList<Board> childrenBoards = new ArrayList<Board>(board.generateAllBoards());
-		for (Board board : childrenBoards){
-			System.out.println(board);
-		}
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		for (Board childrenBoard : childrenBoards){
 			children.add(new RushHourNode(this.costToNode+1, this, childrenBoard));
 		}

@@ -1,10 +1,9 @@
 package exercise2;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 
-public class Astar{
+public class DFS {
 	private static ArrayList<Node> newNodes;
 	private static HashSet<Integer> states = new HashSet<Integer>();
 	public static int numberOfCreatedNodes = 0;
@@ -16,7 +15,7 @@ public class Astar{
 		Node current;
 		numberOfCreatedNodes ++;
 		while (!open.isEmpty()){
-			current = open.remove(0);
+			current = open.remove(open.size()-1);
 			if(current.getIsGoal()){
 				return current.getTotalCost();
 				
@@ -29,10 +28,8 @@ public class Astar{
 					open.add(node);
 				}
 			}
-			Collections.sort(open);
 			closed.add(current);
 		}
 		return -1;
 	}
-
 }

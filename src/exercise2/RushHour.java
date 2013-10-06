@@ -7,13 +7,20 @@ public class RushHour {
 	private static ArrayList<ArrayList<Car>> map = new ArrayList<ArrayList<Car>>();
 	
 	public static void main(String args[]){
-		initializeMap(1);
-//		for (ArrayList<Car> row : map){
-//			System.out.println(row);
-//		}
+		initializeMap(2);
+		for (ArrayList<Car> row: map){
+			System.out.println(row);
+		}
 		RushHourNode firstNode = new RushHourNode(0,null,new Board(map));
-		ArrayList<Node> path = Astar.solve(firstNode);
-		System.out.println(path);
+		int movesToGoal = Astar.solve(firstNode);
+		System.out.println(movesToGoal);
+		System.out.println(Astar.numberOfCreatedNodes);
+		movesToGoal = BFS.solve(firstNode);
+		System.out.println(movesToGoal);
+		System.out.println(BFS.numberOfCreatedNodes);
+		movesToGoal = DFS.solve(firstNode);
+		System.out.println(movesToGoal);
+		System.out.println(DFS.numberOfCreatedNodes);
 	}
 	
 	public static void initializeMap(int mapNumber){

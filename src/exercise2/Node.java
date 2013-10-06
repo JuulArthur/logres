@@ -8,6 +8,8 @@ public interface Node extends Comparable<Node>{
 	
 	public int getTotalCost();
 	
+	public int getState();
+	
 	public ArrayList<Node> createChildren();
 	
 	public Boolean getIsGoal();
