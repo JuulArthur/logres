@@ -7,14 +7,15 @@ import java.util.HashSet;
 public class BFS {
 	private static ArrayList<Node> newNodes;
 	private static HashSet<Integer> states = new HashSet<Integer>();
-	public static int numberOfCreatedNodes = 0;
+	public static int numberOfCreatedNodes;
 	
+	//Same as Astar but doesn't sort the list
 	public static int solve(Node startNode){
 		ArrayList<Node> open = new ArrayList<Node>();
 		ArrayList<Node> closed = new ArrayList<Node>(); //Trenger jeg denne?
 		open.add(startNode);
 		Node current;
-		numberOfCreatedNodes ++;
+		numberOfCreatedNodes = 1;
 		while (!open.isEmpty()){
 			current = open.remove(0);
 			if(current.getIsGoal()){

@@ -2,6 +2,7 @@ package exercise2;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Board {
 	protected ArrayList<ArrayList<Car>> board;
@@ -46,7 +47,7 @@ public class Board {
 								possibleBoards.add(car.moveUp(new Board(tempBoard), new Point(x,y)));
 							}
 						}
-						if(y+car.getSize()<row.size()-1){//Move down
+						if(y+car.getSize()-1<row.size()-1){//Move down
 							if(board.get(y+car.getSize()).get(x)==null){
 								ArrayList<ArrayList<Car>> tempBoard = new ArrayList<ArrayList<Car>>();
 								tempBoard = copyBoard();
@@ -73,6 +74,21 @@ public class Board {
 		}
 		return tempBoard;
 	}
+	
+//	public int hashCode(){
+//		int hash = 0;
+//		for (int y = 0; y< this.board.size();y++){
+//			for (int x = 0; x<this.board.get(y).size();x++){
+//				if (board.get(y).get(x)==null){
+//					hash += 0;
+//				}
+//				else{
+//					hash += 5*(x+1)*(y+1)*board.get(y).get(x).getNumber();
+//				}
+//			}
+//		}
+//		return hash;
+//	}
 	
 	public String toString(){
 		String out = "";

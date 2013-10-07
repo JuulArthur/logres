@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 public interface Node extends Comparable<Node>{
 	
+	//General node to be used for different Astar problems
+	
 	public ArrayList<Node> getChildren();
 	
 	public int getTotalCost();
 	
 	public int getState();
+	
+	public Board getBoard();
 	
 	public ArrayList<Node> createChildren();
 	
@@ -28,5 +32,6 @@ public interface Node extends Comparable<Node>{
 
 	public int compareTo(Node other);
 	
+	//Debug purpose only
 	public String toString();
 }

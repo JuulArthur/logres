@@ -7,10 +7,8 @@ public class RushHour {
 	private static ArrayList<ArrayList<Car>> map = new ArrayList<ArrayList<Car>>();
 	
 	public static void main(String args[]){
-		initializeMap(2);
-		for (ArrayList<Car> row: map){
-			System.out.println(row);
-		}
+		//Get the map given from the exercise
+		initializeMap(3);
 		RushHourNode firstNode = new RushHourNode(0,null,new Board(map));
 		int movesToGoal = Astar.solve(firstNode);
 		System.out.println(movesToGoal);
@@ -23,8 +21,10 @@ public class RushHour {
 		System.out.println(DFS.numberOfCreatedNodes);
 	}
 	
+	//Convert the map from the table given to an ArrayList<ArrayList<Car>>
 	public static void initializeMap(int mapNumber){
 		int[][] table = Maps.getMap(mapNumber);
+		//Create an ArrayList<ArrayList<Car>> filled with null
 		for (int y = 0; y<6; y++){
 			ArrayList<Car> temp = new ArrayList<Car>();
 			for (int x = 0; x<6; x++){
@@ -32,6 +32,7 @@ public class RushHour {
 			}
 			map.add(temp);
 		}
+		//Add the cars to the ArrayList
 		for (int y = 0; y<table.length; y++){
 			Car car = new Car(y,table[y][3], table[y][0]==0);
 			if (car.getIsHorizontal()){

@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class RushHourNode implements Node{
+	//Spesific node to solve the Rush Hour puzzle
 	private int costToNode;
 	private int estimationToGoal;
 	private int totalCost;
@@ -22,6 +23,7 @@ public class RushHourNode implements Node{
 		totalCost = costToNode+estimationToGoal;
 		isGoal=(estimationToGoal==0);
 		children = new ArrayList<Node>();
+		//The state is a hashCode of the ArrayList containing the cars
 		state = board.board.hashCode();
 	}
 	
@@ -46,12 +48,15 @@ public class RushHourNode implements Node{
 	}
 
 	public int generateEstimationToGoal() {
+		//The estimation is based on how many steps there are left for the car to the goal
+		//plus how many steps the cars in the way have to move in order to get to the goal
+		//we don't take into consideration that these cars may also be blocked by other cars.
 		ArrayList<Car> row = this.board.board.get(2);
 		int index=0;
 		int heuristic = 0;
 		for (int i = 0; i<row.size();i++){
 			if (row.get(i)!=null && row.get(i).getNumber()==0){
-				index = i+1; //The index of the point to the right on the car
+				index = i+1; //The index of the point to the right on the cars
 				break;
 			}
 		}
@@ -106,6 +111,7 @@ public class RushHourNode implements Node{
 
 	@Override
 	public ArrayList<Node> createChildren() {
+		//Creates one children for every possible move on the board
 		ArrayList<Board> childrenBoards = new ArrayList<Board>(board.generateAllBoards());
 		for (Board childrenBoard : childrenBoards){
 			children.add(new RushHourNode(this.costToNode+1, this, childrenBoard));
@@ -115,9 +121,11 @@ public class RushHourNode implements Node{
 
 	@Override
 	public int compareTo(Node other) {
+		//Used to sort the open list in Astar
 		return this.getTotalCost()-other.getTotalCost();
 	}
 	
+	//Debug purpose only
 	public String toString(){
 		return (""+totalCost);
 	}

@@ -6,14 +6,14 @@ import java.util.HashSet;
 public class DFS {
 	private static ArrayList<Node> newNodes;
 	private static HashSet<Integer> states = new HashSet<Integer>();
-	public static int numberOfCreatedNodes = 0;
+	public static int numberOfCreatedNodes;
 	
+	//Same as BFS, only popping from the bottom instead of the top
 	public static int solve(Node startNode){
 		ArrayList<Node> open = new ArrayList<Node>();
-		ArrayList<Node> closed = new ArrayList<Node>(); //Trenger jeg denne?
 		open.add(startNode);
 		Node current;
-		numberOfCreatedNodes ++;
+		numberOfCreatedNodes = 1;
 		while (!open.isEmpty()){
 			current = open.remove(open.size()-1);
 			if(current.getIsGoal()){
@@ -28,7 +28,6 @@ public class DFS {
 					open.add(node);
 				}
 			}
-			closed.add(current);
 		}
 		return -1;
 	}

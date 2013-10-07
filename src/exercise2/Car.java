@@ -8,20 +8,23 @@ public class Car {
 	private Boolean isHorizontal;
 	
 	public Car(int number, int size, Boolean isHorizontal){
-		this.number = number;
+		this.number = number; //The "name" of the car
 		this.size = size;
 		this.isHorizontal = isHorizontal;
 	}
 	
+	//Checks how many moves this car needs to get out of the way for car
+	//0 to get to the goal
 	public int moveAway(int x, Board board){
 		int y = 2;
 		if(board.board.get(1).get(x)==this){
-			y=1;
+			y=1; //This car is in the way and is also in the spot over the row to car 0
 			if (board.board.get(0).get(x)==this){
 				y=0;
 			}
 		}
 		if (y==1 && this.size==2){
+			//This car can be moved away with one move
 			return 1;
 		}
 		return (3-y);
@@ -35,16 +38,8 @@ public class Car {
 		return size;
 	}
 
-	public void setSize(int size) {
-		this.size = size;
-	}
-
 	public Boolean getIsHorizontal() {
 		return isHorizontal;
-	}
-
-	public void setIsHorizontal(Boolean isHorizontal) {
-		this.isHorizontal = isHorizontal;
 	}
 
 	public Board moveUp(Board board, Point position){
@@ -75,6 +70,7 @@ public class Car {
 		return board;
 	}
 	
+	//Debug purpose only
 	public String toString(){
 		return Integer.toString(getNumber());
 	}
