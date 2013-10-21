@@ -30,14 +30,13 @@ public class SimulatedAnnealing {
 				System.out.println("JIPPI");
 				System.out.println(p.objectiveFunction());
 				System.out.println(p);
+				
 				p.objectiveFunction();
 				break;
 			}
 			nodes.addAll(p.generateNeighbours());
 			Collections.sort(nodes);
 			Node next = nodes.get(0);
-			System.out.println(next.objectiveFunction());
-			System.out.println(p.objectiveFunction());
 			double q;
 			if(p.objectiveFunction()==0){
 				q=1;
@@ -45,13 +44,8 @@ public class SimulatedAnnealing {
 			else{
 				q = (double)(next.objectiveFunction()-p.objectiveFunction())/p.objectiveFunction();
 			}
-			System.out.println(next);
-			System.out.println(p);
 			double r = Math.min(1, Math.exp((double)-q/t));
 			double x = Math.random();
-			System.out.println("Q: "+q);
-			System.out.println("X: "+x);
-			System.out.println("R: "+r);
 			if(x>r){
 				System.out.println("BESTBESTBESTBSETBSETBSETBSETBSETBSET");
 				p = nodes.get(0);
@@ -59,9 +53,8 @@ public class SimulatedAnnealing {
 			else{
 				p = nodes.get(random.nextInt(nodes.size()));
 			}
-			t-=0.01;
+			t-=0.001;
 		}
-		System.out.println(p);
 
 	}
 
