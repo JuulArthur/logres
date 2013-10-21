@@ -57,7 +57,6 @@ public class SimulatedAnnealing {
 			System.out.println("X: "+x);
 			System.out.println("R: "+r);
 			if(x>r){
-				System.out.println("BESTBESTBESTBSETBSETBSETBSETBSETBSET");
 				p = nodes.get(0);
 			}
 			else{
