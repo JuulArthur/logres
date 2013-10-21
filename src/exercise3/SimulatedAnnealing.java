@@ -12,10 +12,6 @@ import java.util.Set;
 
 public class SimulatedAnnealing {
 
-	//Each node has a responsibility to add their state to this list,
-	//We don't want to add the same board twice.
-	public static Set<Integer> states = new HashSet<Integer>();
-
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		Random random = new Random();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -28,44 +24,46 @@ public class SimulatedAnnealing {
 		Node p = new Node(height, width, k);
 		double t = 10.0;
 		List<Node> nodes = new ArrayList<Node>();
+		boolean best = false;
 		while(t>0){
-			System.out.println("T: "+t);
-			if(p.objectiveFunction()==1.0){
-				System.out.println("JIPPI");
-				System.out.println(p.objectiveFunction());
+			System.out.println("Temperature: "+t);
+			if(p.getValue()==1.0){
+				System.out.println("\n \n");
+				System.out.println("Found (one of) the optimal solutions");
+				System.out.println("\n \n");
 				System.out.println(p);
-				p.objectiveFunction();
+				best = true;
 				break;
 			}
 			nodes.addAll(p.generateNeighbours());
 			Collections.sort(nodes);
 			Node next = nodes.get(0);
-			System.out.println(next.objectiveFunction());
-			System.out.println(p.objectiveFunction());
 			double q;
-			if(p.objectiveFunction()==0){
+			if(p.getValue()==0){
 				q=1;
 			}
 			else{
-				q = (double)(next.objectiveFunction()-p.objectiveFunction())/p.objectiveFunction();
+				q = (double)(next.getValue()-p.getValue())/p.getValue();
 			}
-			System.out.println(next);
-			System.out.println(p);
 			double r = Math.min(1, Math.exp((double)-q/t));
 			double x = Math.random();
-			System.out.println("Q: "+q);
-			System.out.println("X: "+x);
-			System.out.println("R: "+r);
 			if(x>r){
-				System.out.println("BESTBESTBESTBSETBSETBSETBSETBSETBSET");
 				p = nodes.get(0);
 			}
 			else{
 				p = nodes.get(random.nextInt(nodes.size()));
 			}
-			t-=0.01;
+			if(nodes.size()>=1000){
+				nodes.subList(500, nodes.size()).clear();
+			}
+			t-=0.001;
 		}
-		System.out.println(p);
+		if(!best){
+			System.out.println("\n \n");
+			System.out.println("The best I could find is this");
+			System.out.println("\n \n");
+			System.out.println(nodes.get(0));
+		}
 
 	}
 

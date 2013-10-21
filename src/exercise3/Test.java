@@ -84,8 +84,6 @@ public class Test {
 			}
 			out+="\n";
 		}
-		System.out.println(out);
-		System.out.println(nofIllegalEggs);
 
 	}
 

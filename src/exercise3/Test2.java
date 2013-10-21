@@ -13,19 +13,10 @@ public class Test2 {
 //		Node node = new Node(3,3,2,board,4);
 //		System.out.println(node.getValue());
 //		int[][] bordeen = {{0,0,0},{0,0,0},{0,0,0}};
-//		int[][] bordeto = {{0,0,0},{0,1,0},{0,0,0}};
+		int[][] bordeto = {{0,0,0},{1,0,0},{0,0,0}};
 //		Node nodeen = new Node(3, 3, 1,bordeen,0);
 //		Node nodeto = new Node(3, 3, 1,bordeto,0);
-//		ArrayList<Node> nodes = new ArrayList<Node>();
-//		nodes.add(nodeen);
-//		nodes.add(nodeto);
-//		double kake = 7.56;
-//		double is = (int) kake;
-//		System.out.println(is);
-//		Collections.sort(nodes);
-//		System.out.println(nodes.get(0));
-//		System.out.println(nodes.get(1));
-		System.out.println(Math.exp(-1/1));
+//		System.out.println(nodeto.cellIsAvailable(0, 0));
 	}
 
 }
