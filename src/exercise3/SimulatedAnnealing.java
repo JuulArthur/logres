@@ -12,10 +12,6 @@ import java.util.Set;
 
 public class SimulatedAnnealing {
 
-	//Each node has a responsibility to add their state to this list,
-	//We don't want to add the same board twice.
-	public static Set<Integer> states = new HashSet<Integer>();
-
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		Random random = new Random();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
