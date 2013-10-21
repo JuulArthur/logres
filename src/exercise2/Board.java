@@ -75,21 +75,7 @@ public class Board {
 		return tempBoard;
 	}
 	
-//	public int hashCode(){
-//		int hash = 0;
-//		for (int y = 0; y< this.board.size();y++){
-//			for (int x = 0; x<this.board.get(y).size();x++){
-//				if (board.get(y).get(x)==null){
-//					hash += 0;
-//				}
-//				else{
-//					hash += 5*(x+1)*(y+1)*board.get(y).get(x).getNumber();
-//				}
-//			}
-//		}
-//		return hash;
-//	}
-	
+	//Used to print out the solution
 	public String toString(){
 		String out = "";
 		for (ArrayList<Car> row : board){
@@ -98,7 +84,25 @@ public class Board {
 					out+="n";
 				}
 				else{
-					out+=Integer.toString(car.getNumber());
+					if(car.getNumber()>9){
+						switch(car.getNumber()){
+						case (10):
+							out+="a";
+							break;
+						case (11):
+							out+="b";
+							break;
+						case (12):
+							out+="c";
+							break;
+						default:
+							out+="z";
+						}
+						
+					}
+					else{
+						out+=Integer.toString(car.getNumber());
+					}
 				}
 			}
 			out+="\n";

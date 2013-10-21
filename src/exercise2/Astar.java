@@ -23,7 +23,14 @@ public class Astar{
 			//Pop the node that seems to be best
 			current = open.remove(0);
 			if(current.getIsGoal()){
-				return current.getTotalCost();
+				//Used to find the path from start to finish
+				int numberOfSteps=current.getTotalCost();
+				while(current.getParent()!=null){
+					System.out.println(current.getBoard());
+					System.out.println("-------------------------------------------------");
+					current=current.getParent();
+				}
+				return numberOfSteps;
 				
 			}
 			//Create an ArrayList with all possible children for a given node
