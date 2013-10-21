@@ -5,13 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
+
 public class Node implements Comparable<Node>{
 	public int[][] board;
 	private int width;
 	private int height;
 	private int k;
 	private List<Node> neighbours = new ArrayList<Node>();
-	public int eggs;
+	private int eggs;
 	private double value;
 	
 	
@@ -20,21 +22,20 @@ public class Node implements Comparable<Node>{
 		this.width=width;
 		this.k=k;
 		this.board = new int[width][height];
-		this.board[0][0]=1;
 		this.eggs = 1;
 		this.value = objectiveFunction();
 	}
 	
-	public Node(int height, int width, int k, int[][] board, int eggs){
+	public Node(int height, int width, int k, int[][] board){
 		this.height=height;
 		this.width=width;
 		this.k = k;
 		this.board = board;
-		this.eggs = eggs;
+		this.eggs = getNumberOfEggs();
 		this.value = objectiveFunction();
 	}
 	
-	public int[][] cloneBoard(int[][] board){
+	private int[][] cloneBoard(int[][] board){
 		int[][] returnBoard = new int[height][width];
 		for(int y = 0; y<height; y++){
 			for(int x = 0; x<width; x++){
@@ -66,7 +67,7 @@ public class Node implements Comparable<Node>{
 				add = placeNextPossibleCell(x,y, neighbourBoard);
 			}
 			if(add){
-				addNeighbour(new Node(height, width, k, neighbourBoard, eggs+1));
+				addNeighbour(new Node(height, width, k, neighbourBoard));
 			}
 		}
 		//Create neighbours where we remove eggs
@@ -83,7 +84,7 @@ public class Node implements Comparable<Node>{
 				remove = removeNextPossibleCell(x,y, neighbourBoard);
 			}
 			if(remove){
-				addNeighbour(new Node(height, width, k, neighbourBoard, eggs-1));
+				addNeighbour(new Node(height, width, k, neighbourBoard));
 			}
 		}
 		//Create neighbours where we move eggs
@@ -110,7 +111,7 @@ public class Node implements Comparable<Node>{
 				add = placeNextPossibleCell(x,y, neighbourBoard);
 			}
 			if(add && remove){
-				addNeighbour(new Node(height, width, k, neighbourBoard, eggs));
+				addNeighbour(new Node(height, width, k, neighbourBoard));
 			}
 		}
 		return this.neighbours;
@@ -147,22 +148,6 @@ public class Node implements Comparable<Node>{
 			for (int column = x; column<width; column++){
 				if(neighbourBoard[row][column]==0 && cellIsAvailable(column, row)){
 					neighbourBoard[row][column]=1;
-//					System.out.println("X: "+column);
-//					System.out.println("Y: "+row);
-//					String out = "";
-//					for (int[] yo: neighbourBoard){
-//						for (int kake: yo){
-//							out+=kake+" ";
-//						}
-//						out+="\n";
-//					}
-//					System.out.println(out);
-//					try {
-//						Thread.sleep(1000);
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
 					return true;
 				}
 			}
@@ -179,8 +164,7 @@ public class Node implements Comparable<Node>{
 		
 	}
 
-	public double objectiveFunction(){
-		eggs = getNumberOfEggs();
+	private double objectiveFunction(){;
 		double value = 1;
 		//Subtract point for the difference between desired eggs and how many we have
 		//We subtract 0.02 points for each step we are away from our goal
@@ -189,11 +173,11 @@ public class Node implements Comparable<Node>{
 		
 	}
 	
-	public boolean cellIsAvailable(int x, int y){
+	private boolean cellIsAvailable(int x, int y){
 		return (availableRow(y)&&availableColumn(x)&&availableDiagonals(x, y));
 	}
 	
-	public boolean availableRow(int y){
+	private boolean availableRow(int y){
 		int eggsInRow = 0;
 		for (int i : board[y]){
 			if(i==1){
@@ -206,7 +190,7 @@ public class Node implements Comparable<Node>{
 		return true;
 	}
 	
-	public boolean availableColumn(int x){
+	private boolean availableColumn(int x){
 		int eggsInColumn = 0;
 		for (int y = 0;y<height;y++){
 			if(board[y][x]==1){
@@ -219,7 +203,7 @@ public class Node implements Comparable<Node>{
 		return true;
 	}
 	
-	public boolean availableDiagonals(int initialX, int initialY){
+	private boolean availableDiagonals(int initialX, int initialY){
 		int x;
 		int y;
 		if(initialX<initialY){
@@ -248,9 +232,6 @@ public class Node implements Comparable<Node>{
 			x=initialX+initialY;
 			y=0;
 		}
-		System.out.println(initialX);
-		System.out.println(x);
-		System.out.println(y);
 		for(int i = 0; x-i>0 && i+y<height;i++){
 			if(board[y+i][x-i]==1){
 				eggsInDiagonal++;

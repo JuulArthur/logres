@@ -24,36 +24,45 @@ public class SimulatedAnnealing {
 		Node p = new Node(height, width, k);
 		double t = 10.0;
 		List<Node> nodes = new ArrayList<Node>();
+		boolean best = false;
 		while(t>0){
-			System.out.println("T: "+t);
-			if(p.objectiveFunction()==1.0){
-				System.out.println("JIPPI");
-				System.out.println(p.objectiveFunction());
+			System.out.println("Temperature: "+t);
+			if(p.getValue()==1.0){
+				System.out.println("\n \n");
+				System.out.println("Found (one of) the optimal solutions");
+				System.out.println("\n \n");
 				System.out.println(p);
-				
-				p.objectiveFunction();
+				best = true;
 				break;
 			}
 			nodes.addAll(p.generateNeighbours());
 			Collections.sort(nodes);
 			Node next = nodes.get(0);
 			double q;
-			if(p.objectiveFunction()==0){
+			if(p.getValue()==0){
 				q=1;
 			}
 			else{
-				q = (double)(next.objectiveFunction()-p.objectiveFunction())/p.objectiveFunction();
+				q = (double)(next.getValue()-p.getValue())/p.getValue();
 			}
 			double r = Math.min(1, Math.exp((double)-q/t));
 			double x = Math.random();
 			if(x>r){
-				System.out.println("BESTBESTBESTBSETBSETBSETBSETBSETBSET");
 				p = nodes.get(0);
 			}
 			else{
 				p = nodes.get(random.nextInt(nodes.size()));
 			}
+			if(nodes.size()>=1000){
+				nodes.subList(500, nodes.size()).clear();
+			}
 			t-=0.001;
+		}
+		if(!best){
+			System.out.println("\n \n");
+			System.out.println("The best I could find is this");
+			System.out.println("\n \n");
+			System.out.println(nodes.get(0));
 		}
 
 	}

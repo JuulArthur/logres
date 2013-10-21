@@ -15,8 +15,8 @@ public class Test2 {
 //		int[][] bordeen = {{0,0,0},{0,0,0},{0,0,0}};
 		int[][] bordeto = {{0,0,0},{1,0,0},{0,0,0}};
 //		Node nodeen = new Node(3, 3, 1,bordeen,0);
-		Node nodeto = new Node(3, 3, 1,bordeto,0);
-		System.out.println(nodeto.cellIsAvailable(0, 0));
+//		Node nodeto = new Node(3, 3, 1,bordeto,0);
+//		System.out.println(nodeto.cellIsAvailable(0, 0));
 	}
 
 }
