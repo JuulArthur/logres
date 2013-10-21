@@ -1,11 +1,8 @@
 package exercise3;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
-import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
 
 public class Node implements Comparable<Node>{
 	public int[][] board;
@@ -14,9 +11,10 @@ public class Node implements Comparable<Node>{
 	private int k;
 	private List<Node> neighbours = new ArrayList<Node>();
 	private int eggs;
+	//The value the objective function gives us so we don't have to calculated it more than one time
 	private double value;
 	
-	
+	/**This constructor is only used when creating the first node*/
 	public Node(int height, int width, int k){
 		this.height=height;
 		this.width=width;
@@ -26,6 +24,7 @@ public class Node implements Comparable<Node>{
 		this.value = objectiveFunction();
 	}
 	
+	/**This constructor is used by the node when it creates neighbours */
 	public Node(int height, int width, int k, int[][] board){
 		this.height=height;
 		this.width=width;
@@ -35,6 +34,9 @@ public class Node implements Comparable<Node>{
 		this.value = objectiveFunction();
 	}
 	
+	/** We have a method to clone the board so we don't get any wrong references
+	 * @param board  the board to clone
+	 * */
 	private int[][] cloneBoard(int[][] board){
 		int[][] returnBoard = new int[height][width];
 		for(int y = 0; y<height; y++){
@@ -45,32 +47,44 @@ public class Node implements Comparable<Node>{
 		return returnBoard;
 	}
 	
-	
+	/** Generates up to 30 neighbours were:
+	 * 10 boards have added one egg
+	 * 10 boards have removed one egg
+	 * 10 boards have moved one egg*/
 	public List<Node> generateNeighbours(){
 		Random random = new Random();
+		//x and y are used to give a random position to start looking in the board
 		int x;
 		int y;
+		//Booleans to check if we actually where able to remove or add an egg.
 		boolean remove;
 		boolean add;
+		//The board we modify to create a neighbour
 		int [][] neighbourBoard;
 		//Create neighbours where we add eggs
 		for(int i = 0;i<10;i++){
 			add=false;
+			//Create an identical clone to our board
 			neighbourBoard = cloneBoard(this.board);
 			x = random.nextInt(width);
 			y = random.nextInt(height);
+			//If the cell is empty and it doesen't collide with too many other eggs
+			//we are allowed to add an egg here
 			if(neighbourBoard[y][x]==0 && cellIsAvailable(x, y)){
 				neighbourBoard[y][x]=1;
 				add=true;
 			}
+			//else we check for the first place we can add an egg
 			else{
 				add = placeNextPossibleCell(x,y, neighbourBoard);
 			}
+			//If we managed to add an egg we want to create the neighbor
 			if(add){
 				addNeighbour(new Node(height, width, k, neighbourBoard));
 			}
 		}
 		//Create neighbours where we remove eggs
+		//This works in the same way ass add egg
 		for(int i = 0;i<10 && i<eggs;i++){
 			remove = false;
 			neighbourBoard = cloneBoard(this.board);
@@ -88,6 +102,7 @@ public class Node implements Comparable<Node>{
 			}
 		}
 		//Create neighbours where we move eggs
+		//This is just a combination of add egg and remove egg
 		for(int i = 0;i<10 && i<eggs;i++){
 			remove = false;
 			add = false;
@@ -117,10 +132,12 @@ public class Node implements Comparable<Node>{
 		return this.neighbours;
 	}
 	
+	//Maybe not necessary, but we have a method to add a neighbor
 	private void addNeighbour(Node node){
 		this.neighbours.add(node);
 	}
 	
+	/**Find the first egg after the given position to remove*/
 	private boolean removeNextPossibleCell(int x, int y, int[][] neighbourBoard) {
 		for(int row = y;row<height;row++){
 			for (int column = x; column<width; column++){
@@ -131,6 +148,7 @@ public class Node implements Comparable<Node>{
 			}
 			x=0;
 		}
+		//If we didn't find an egg to remove after the given position, let's check from the start
 		for(int row = 0;row<=y;row++){
 			for(int column = 0;column<width;column++){
 				if(neighbourBoard[row][column]==1){
@@ -143,6 +161,7 @@ public class Node implements Comparable<Node>{
 		return false;
 	}
 
+	/**Check for the first place after the given position where we can place an egg*/
 	private boolean placeNextPossibleCell(int x, int y, int[][] neighbourBoard) {
 		for(int row = y;row<height;row++){
 			for (int column = x; column<width; column++){
@@ -152,6 +171,7 @@ public class Node implements Comparable<Node>{
 				}
 			}
 		}
+		//If we didn't find an available cell after the given position, let's check from the start
 		for(int row = 0;row<=y;row++){
 			for (int column = 0; column<width; column++){
 				if(neighbourBoard[row][column]==0 && cellIsAvailable(column, row)){
@@ -164,6 +184,7 @@ public class Node implements Comparable<Node>{
 		
 	}
 
+	/**This function is used to evaluated how good the given node is */
 	private double objectiveFunction(){;
 		double value = 1;
 		//Subtract point for the difference between desired eggs and how many we have
@@ -173,10 +194,12 @@ public class Node implements Comparable<Node>{
 		
 	}
 	
+	/**Checks whether we can place an egg in the given cell or not */
 	private boolean cellIsAvailable(int x, int y){
 		return (availableRow(y)&&availableColumn(x)&&availableDiagonals(x, y));
 	}
 	
+	/**Checks if we can the row is already filled with eggs */
 	private boolean availableRow(int y){
 		int eggsInRow = 0;
 		for (int i : board[y]){
@@ -190,6 +213,7 @@ public class Node implements Comparable<Node>{
 		return true;
 	}
 	
+	/**Checks if we can the column is already filled with eggs */
 	private boolean availableColumn(int x){
 		int eggsInColumn = 0;
 		for (int y = 0;y<height;y++){
@@ -203,6 +227,7 @@ public class Node implements Comparable<Node>{
 		return true;
 	}
 	
+	/**Checks if we can the diagonals from this cell is already filled with eggs */
 	private boolean availableDiagonals(int initialX, int initialY){
 		int x;
 		int y;
@@ -243,10 +268,12 @@ public class Node implements Comparable<Node>{
 		return true;
 	}
 	
+	/**Get the value created by the objective function */
 	public double getValue(){
 		return value;
 	}
 	
+	/**Guess this method name speaks for itself */
 	private int getNumberOfEggs(){
 		int numberOfEggs=0;
 		for(int[] row : this.board){
@@ -259,6 +286,7 @@ public class Node implements Comparable<Node>{
 		return numberOfEggs;
 	}
 	
+	/**Used to print out the board in a lovely way*/
 	public String toString(){
 		String out="";
 		for(int[] row: board){
@@ -272,6 +300,7 @@ public class Node implements Comparable<Node>{
 	}
 
 @Override
+/**Used to when sorting the list with nodes */
 public int compareTo(Node node) {
 	double returnValue = (node.objectiveFunction()-this.objectiveFunction())*1000;
 	return  (int) (returnValue);
