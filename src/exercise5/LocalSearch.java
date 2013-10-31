@@ -16,24 +16,23 @@ public class LocalSearch {
 		int height = Integer.valueOf(reader.readLine());
 		System.out.println("Enter width: ");
 		int width = Integer.valueOf(reader.readLine());
-		System.out.println("Enter k: ");
-		int k = Integer.valueOf(reader.readLine());
-		Board p = new Board(height, width, k);
-		//Seems like this is a nice temperature to start with
+		Board p = new Board(height, width);
+		//The variable is just used as a counter so we don't go on for an eternity
 		double t = 10.0;
+		long start = System.currentTimeMillis();    
 		while(t>0){
 			if(p.isSolved()){
-				System.out.println("I made it!");
-				System.out.println("Here it comes!");
-				System.out.println(p);
-				System.out.println("I have given the answer");
+				System.out.println("This is the soloution\n");
+				//It takes so long to print out the board that it is usually commented
+				//Only uncomment when you need to check the solution
+//				System.out.println(p);
 				break;
 			}
 			p.modifyBoard();
 			t-=0.001;
 		}
-		System.out.println(p);
-
+		//print out how many milliseconds the algorithm takes to find the solution
+		System.out.println(System.currentTimeMillis() - start);
 	}
 
 }

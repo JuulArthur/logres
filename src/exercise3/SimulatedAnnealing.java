@@ -21,10 +21,12 @@ public class SimulatedAnnealing {
 		int k = Integer.valueOf(reader.readLine());
 		Node p = new Node(height, width, k);
 		//Seems like this is a nice temperature to start with
-		double t = 10.0;
+		double t = 1.0;
 		//The List containing all the nodes
 		List<Node> nodes = new ArrayList<Node>();
 		boolean best = false;
+		int bestChoice = 0;
+		int randomChoice = 0;
 		while(t>0){
 			//We want to see the temperature at all times
 			System.out.println("Temperature: "+t);
@@ -33,6 +35,8 @@ public class SimulatedAnnealing {
 				System.out.println("\n \n");
 				System.out.println("Found (one of) the optimal solutions");
 				System.out.println("\n \n");
+				System.out.println(randomChoice);
+				System.out.println(bestChoice);
 				System.out.println(p);
 				best = true;
 				break;
@@ -59,9 +63,11 @@ public class SimulatedAnnealing {
 			double x = Math.random();
 			if(x>r){
 				//Get the best node
+				bestChoice++;
 				p = nodes.get(0);
 			}
 			else{
+				randomChoice++;
 				//Get a random node
 				p = nodes.get(random.nextInt(nodes.size()));
 			}
@@ -71,7 +77,7 @@ public class SimulatedAnnealing {
 				nodes.subList(500, nodes.size()).clear();
 			}
 			//With this value for dT we'll usually get to the answer
-			t-=0.001;
+			t-=0.0001;
 		}
 		if(!best){
 			System.out.println("\n \n");
